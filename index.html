@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video Gallery</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: 300;
+            font-size: 2.5rem;
+            color: #e0e0e0;
+        }
+        
+        .gallery-container {
+            display: flex;
+            gap: 30px;
+            padding: 20px 0;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+        }
+        
+        .gallery-item {
+            scroll-snap-align: start;
+            min-width: 300px;
+            background: #1e1e1e;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+        
+        .gallery-image-container {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background-color: #2a2a2a;
+            cursor: pointer;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover .gallery-image {
+            transform: scale(1.03);
+        }
+        
+        .image-info {
+            padding: 20px;
+        }
+        
+        .image-name {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #ffffff;
+        }
+        
+        .image-description {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #b0b0b0;
+            line-height: 1.5;
+        }
+        
+        /* Video Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            overflow: auto;
+        }
+        
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 1000px;
+        }
+        
+        .close {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            color: white;
+            font-size: 35px;
+            font-weight: 300;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+        }
+        
+        .close:hover {
+            opacity: 1;
+        }
+        
+        .youtube-iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+            border-radius: 8px;
+        }
+        
+        /* Scrollbar styling */
+        .gallery-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .gallery-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        .gallery-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+        
+        .gallery-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .gallery-item {
+                min-width: 250px;
+            }
+            
+            .gallery-image-container {
+                height: 180px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .youtube-iframe {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>YouTube Video Gallery</h1>
+        
+        <div class="gallery-container">
+            <!-- Item 1 -->
+            <div class="gallery-item">
+                <div class="gallery-image-container">
+                    <img src="images/angelo.jpg" alt="Video 1" class="gallery-image" 
+                         onclick="openYouTubeVideo('WcuhuVNPI94')">
+                </div>
+                <div class="image-info">
+                    <h3 class="image-name">Sample Video 1</h3>
+                    <p class="image-description">Click to watch this YouTube video in full screen mode.</p>
+                </div>
+            </div>
+            
+            <!-- Item 2 -->
+            <div class="gallery-item">
+                <div class="gallery-image-container">
+                    <img src="images/angelo.jpg" alt="Video 2" class="gallery-image"
+                         onclick="openYouTubeVideo('dQw4w9WgXcQ')">
+                </div>
+                <div class="image-info">
+                    <h3 class="image-name">Sample Video 2</h3>
+                    <p class="image-description">Click to watch this YouTube video in full screen mode.</p>
+                </div>
+            </div>
+            
+            <!-- Item 3 -->
+            <div class="gallery-item">
+                <div class="gallery-image-container">
+                    <img src="images/angelo.jpg" alt="Video 3" class="gallery-image"
+                         onclick="openYouTubeVideo('9bZkp7q19f0')">
+                </div>
+                <div class="image-info">
+                    <h3 class="image-name">Sample Video 3</h3>
+                    <p class="image-description">Click to watch this YouTube video in full screen mode.</p>
+                </div>
+            </div>
+            
+            <!-- Item 4 -->
+            <div class="gallery-item">
+                <div class="gallery-image-container">
+                    <img src="images/angelo.jpg" alt="Video 4" class="gallery-image"
+                         onclick="openYouTubeVideo('WcuhuVNPI94')">
+                </div>
+                <div class="image-info">
+                    <h3 class="image-name">Sample Video 4</h3>
+                    <p class="image-description">Click to watch this YouTube video in full screen mode.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- YouTube Video Modal -->
+    <div id="videoModal" class="modal">
+        <span class="close" onclick="closeVideo()">&times;</span>
+        <div class="modal-content">
+            <iframe id="youtubeVideo" class="youtube-iframe" 
+                    src="" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen></iframe>
+        </div>
+    </div>
+    
+    <script>
+        // Function to open YouTube video
+        function openYouTubeVideo(videoId) {
+            const modal = document.getElementById('videoModal');
+            const iframe = document.getElementById('youtubeVideo');
+            
+            // Set the YouTube embed URL with autoplay
+            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+            modal.style.display = "block";
+        }
+        
+        // Function to close video modal
+        function closeVideo() {
+            const modal = document.getElementById('videoModal');
+            const iframe = document.getElementById('youtubeVideo');
+            
+            // Stop the video by removing the src
+            iframe.src = "";
+            modal.style.display = "none";
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('videoModal');
+            if (event.target == modal) {
+                closeVideo();
+            }
+        }
+    </script>
+</body>
+</html>
